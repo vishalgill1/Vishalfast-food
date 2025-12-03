@@ -1,254 +1,591 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vishal Fast Food | Burgers, Pizza & More</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vishal Fast Food — Burgers · Pizza · Fries · Pasta</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-            font-family: 'Poppins', sans-serif;
-        }
+  <!-- Basic Styles (All in one file as requested) -->
+  <style>
+    :root{
+      --red:#e53935;
+      --dark:#0f0f10;
+      --muted:#f6f6f6;
+      --glass: rgba(255,255,255,0.04);
+      --card-shadow: 0 8px 30px rgba(0,0,0,0.45);
+      --radius:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+    html,body{height:100%;background:linear-gradient(180deg,#1a1a1a 0%, #0f0f10 100%);color:#fff;scroll-behavior:smooth}
+    a{color:inherit;text-decoration:none}
 
-        :root {
-            --primary: #ff4d4d;
-            --secondary: #262626;
-            --light: #ffffff;
-            --bg: #fff8f0;
-        }
+    /* Header / Navigation */
+    header{
+      position:fixed;left:0;right:0;top:0;z-index:120;
+      backdrop-filter: blur(6px);
+      background:linear-gradient(180deg, rgba(15,15,15,0.8), rgba(15,15,15,0.6));
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding:14px 22px;display:flex;align-items:center;justify-content:space-between;
+      gap:12px;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--red),#8b0000);
+      display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;box-shadow:0 6px 18px rgba(229,57,53,0.25)
+    }
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{padding:8px 12px;border-radius:10px;font-weight:600;opacity:0.95}
+    nav a:hover{background:rgba(255,255,255,0.03);transform:translateY(-2px)}
+    .cta{background:var(--red);color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;display:inline-flex;align-items:center;gap:10px;box-shadow:var(--card-shadow)}
+    .menu-toggle{display:none}
 
-        body {
-            background: var(--bg);
-        }
+    /* Hero */
+    .hero{
+      min-height:78vh;display:grid;grid-template-columns:1fr 420px;gap:30px;align-items:center;
+      padding:120px 6vw 60px;
+    }
+    .hero-left{max-width:760px}
+    .eyebrow{display:inline-block;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:999px;color:var(--red);font-weight:700;margin-bottom:18px}
+    h1{font-size:44px;line-height:1.05; margin-bottom:10px; color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,0.6)}
+    .tag{color:#ddd;margin-bottom:18px;font-size:18px}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{background:var(--red);color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;box-shadow:0 10px 30px rgba(229,57,53,0.18)}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:10px 16px}
+    .hero-stats{display:flex;gap:18px;margin-top:20px}
+    .stat{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px 16px;border-radius:12px}
+    .stat strong{display:block;font-size:20px;color:#fff}
 
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            animation: slideDown .8s ease-out;
-        }
+    /* Card (Order panel) */
+    .order-card{background:linear-gradient(180deg,#0f0f10, rgba(255,255,255,0.02));padding:18px;border-radius:18px;box-shadow:var(--card-shadow)}
+    .order-card h3{margin-bottom:10px}
+    .order-row{display:flex;gap:8px;margin:10px 0;align-items:center}
+    .qty{display:inline-flex;align-items:center;border-radius:10px;overflow:hidden;background:rgba(255,255,255,0.02)}
+    .qty button{background:transparent;border:0;color:#fff;padding:8px 12px;font-weight:700;cursor:pointer}
+    .qty span{padding:8px 12px;min-width:36px;text-align:center;font-weight:700}
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+    /* Sections */
+    section{padding:80px 6vw}
+    .section-title{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+    .section-title h2{font-size:28px;color:#fff}
+    .section-sub{color:#cfcfcf;font-size:14px}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 600;
-        }
+    /* Menu grid */
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+    .menu-item{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:14px;box-shadow:0 8px 22px rgba(0,0,0,0.55);transition:transform .25s}
+    .menu-item:hover{transform:translateY(-8px)}
+    .menu-item img{width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:10px}
+    .menu-item h4{font-size:18px;margin-bottom:6px}
+    .price{font-weight:800;color:var(--red);font-size:16px}
 
-        .hero {
-            height: 85vh;
-            background: url('https://i.ibb.co/k2xf1WG/food-banner.jpg') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 40px;
-            color: white;
-            text-shadow: 2px 2px 5px black;
-            animation: fadeIn 1.4s ease-in;
-        }
+    /* Gallery */
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .gallery-grid img{width:100%;height:110px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform .18s}
+    .gallery-grid img:hover{transform:scale(1.06)}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px)
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
+    /* Testimonials */
+    .testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    .testi{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px}
 
-        .hero h1 {
-            font-size: 60px;
-        }
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .input, textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;outline:none}
+    textarea{min-height:120px;resize:vertical}
 
-        .hero p {
-            font-size: 20px;
-            margin-top: 10px;
-        }
+    /* Footer */
+    footer{padding:28px 6vw;background:linear-gradient(180deg,#0b0b0b,#050505);margin-top:40px;border-top:1px solid rgba(255,255,255,0.03)}
+    .socials{display:flex;gap:12px;align-items:center}
 
-        .btn {
-            margin-top: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: 600;
-            transition: .3s;
-        }
+    /* WhatsApp Floating Button */
+    .whatsapp{
+      position:fixed;right:18px;bottom:18px;z-index:140;background:#25D366;border-radius:999px;padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 40px rgba(37,211,102,0.12);
+      color:#fff;font-weight:700
+    }
+    .rating-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px}
 
-        .btn:hover {
-            background: #cc0000;
-        }
+    /* Responsive */
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr; padding-top:110px}
+      .hero-left{order:1}
+      .order-card{order:2;margin-top:18px}
+      .gallery-grid{grid-template-columns:repeat(3,1fr)}
+      nav{display:none}
+      .menu-toggle{display:block;background:transparent;border:0;color:#fff;font-size:22px}
+      .contact-grid{grid-template-columns:1fr}
+      .gallery-grid img{height:100px}
+    }
+    @media(max-width:560px){
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+      .menu-item img{height:120px}
+      h1{font-size:32px}
+    }
 
-        section {
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 36px;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            animation: fadeIn .8s;
-        }
-
-        .menu-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-
-        .item {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-            transition: .4s;
-            animation: fadeIn .8s;
-        }
-
-        .item:hover {
-            transform: scale(1.05);
-        }
-
-        .item img {
-            width: 100%;
-            height: 180px;
-            border-radius: 12px;
-            object-fit: cover;
-        }
-
-        .rating {
-            margin: 10px 0;
-            color: gold;
-            font-size: 20px;
-        }
-
-        footer {
-            background: var(--secondary);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25D366;
-            color: white;
-            padding: 14px 20px;
-            border-radius: 50%;
-            font-size: 28px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: .3s;
-        }
-
-        .whatsapp-btn:hover {
-            transform: scale(1.1);
-        }
-    </style>
+    /* Small animations */
+    .fade-up{opacity:0;transform:translateY(12px);animation:fadeUp .6s forwards}
+    .delay-1{animation-delay:.08s}.delay-2{animation-delay:.16s}.delay-3{animation-delay:.24s}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+  </style>
 </head>
-
 <body>
 
-    <!-- Header -->
-    <header>
-        <h1>Vishal Fast Food</h1>
-        <nav>
-            <a href="#hero">Home</a>
-            <a href="#menu">Menu</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="logo">VF</div>
+      <div>
+        <div style="font-weight:800">Vishal Fast Food</div>
+        <div style="font-size:12px;color:#bbb;margin-top:2px">Burgers · Pizza · Fries · Pasta</div>
+      </div>
+    </div>
 
-    <!-- Hero -->
-    <section class="hero" id="hero">
-        <h1>Delicious & Fast Food</h1>
-        <p>Burgers, Pizza, French Fries & Pasta</p>
-        <a class="btn" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi">Order Now</a>
-    </section>
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+      <a class="cta" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi" target="_blank">Order Now</a>
+    </nav>
 
-    <!-- Menu -->
-    <section id="menu">
-        <h2>Our Popular Items 🍔🍕</h2>
+    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+  </header>
 
-        <div class="menu-items">
-            <div class="item">
-                <img src="https://i.ibb.co/Hx6vyY7/burger.jpg">
-                <h3>Burger</h3>
-                <div class="rating">★★★★★</div>
-            </div>
+  <!-- Mobile menu (hidden by default) -->
+  <div id="mobileMenu" style="display:none;position:fixed;inset:72px 18px auto 18px;background:#0b0b0b;padding:18px;border-radius:12px;z-index:200;box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+    <a href="#home" onclick="closeMobileMenu()" style="display:block;padding:12px 0">Home</a>
+    <a href="#menu" onclick="closeMobileMenu()" style="display:block;padding:12px 0">Menu</a>
+    <a href="#gallery" onclick="closeMobileMenu()" style="display:block;padding:12px 0">Gallery</a>
+    <a href="#testimonials" onclick="closeMobileMenu()" style="display:block;padding:12px 0">Reviews</a>
+    <a href="#contact" onclick="closeMobileMenu()" style="display:block;padding:12px 0">Contact</a>
+  </div>
 
-            <div class="item">
-                <img src="https://i.ibb.co/gZWZ5JK/pizza.jpg">
-                <h3>Pizza</h3>
-                <div class="rating">★★★★★</div>
-            </div>
+  <!-- HERO -->
+  <main id="home">
+    <section class="hero" aria-label="Hero section">
+      <div class="hero-left">
+        <div class="eyebrow">Open Now • Fast Delivery</div>
+        <h1 class="fade-up delay-1">Taste the best — <span style="color:var(--red)">Vishal Fast Food</span></h1>
+        <p class="tag fade-up delay-2">Burgers · Pizza · French Fries · Pasta — Freshly made, hot, and ready to delight.</p>
 
-            <div class="item">
-                <img src="https://i.ibb.co/ykYKnX2/fries.jpg">
-                <h3>French Fries</h3>
-                <div class="rating">★★★★★</div>
-            </div>
-
-            <div class="item">
-                <img src="https://i.ibb.co/K2jQGTH/pasta.jpg">
-                <h3>Pasta</h3>
-                <div class="rating">★★★★★</div>
-            </div>
+        <div class="hero-cta fade-up delay-3">
+          <a class="btn" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi" target="_blank">Order on WhatsApp</a>
+          <a class="btn secondary" href="#menu">See Menu & Prices</a>
         </div>
+
+        <div class="hero-stats" style="margin-top:22px">
+          <div class="stat">
+            <small style="color:#cfcfcf">Google Rating</small>
+            <strong>⭐ 5.0</strong>
+          </div>
+          <div class="stat">
+            <small style="color:#cfcfcf">Fast Delivery</small>
+            <strong>30–45 mins</strong>
+          </div>
+          <div class="stat">
+            <small style="color:#cfcfcf">Contact</small>
+            <strong>+91 95186 92138</strong>
+          </div>
+        </div>
+      </div>
+
+      <aside class="order-card">
+        <h3>Quick Order</h3>
+        <p style="color:#cfcfcf;font-size:13px">Select item, quantity and tap "Order on WhatsApp" to send order.</p>
+
+        <div style="margin-top:12px">
+          <label style="font-size:13px;color:#cfcfcf">Item</label>
+          <select id="quickItem" class="input" style="margin-top:6px">
+            <option value="Burger|120">Burger — ₹120</option>
+            <option value="Pizza|220">Pizza — ₹220</option>
+            <option value="French Fries|80">French Fries — ₹80</option>
+            <option value="Pasta|150">Pasta — ₹150</option>
+          </select>
+        </div>
+
+        <div class="order-row" style="margin-top:10px">
+          <label style="font-size:13px;color:#cfcfcf;min-width:80px">Quantity</label>
+          <div class="qty">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="qty">1</span>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+          <div style="margin-left:auto;font-weight:700;color:var(--red)" id="calcPrice">₹120</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn" onclick="sendQuickOrder()">Order on WhatsApp</button>
+          <button class="btn secondary" onclick="addToCart()">Add to Cart</button>
+        </div>
+
+        <div id="cartPreview" style="margin-top:12px;display:none">
+          <hr style="border-color:rgba(255,255,255,0.03);margin:12px 0">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700" id="cartItemsText">0 items</div>
+              <div style="font-size:13px;color:#cfcfcf" id="cartList">—</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-weight:800;color:var(--red)" id="cartTotal">₹0</div>
+              <div style="font-size:12px;color:#bbb">incl. taxes</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn" onclick="checkoutCart()">Checkout</button>
+            <button class="btn secondary" onclick="clearCart()">Clear</button>
+          </div>
+        </div>
+      </aside>
     </section>
 
-    <!-- Contact -->
-    <section id="contact">
-        <h2>Contact Us 📞</h2>
-        <p>We are always ready to serve delicious food 😋</p>
-        <br>
-        <a class="btn" href="https://maps.app.goo.gl/f1pMUpUfDNXgsW4u9" target="_blank">⭐ Rated 5 Stars on Google</a>
-        <br><br>
-        <a class="btn" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi">Chat on WhatsApp</a>
+    <!-- MENU -->
+    <section id="menu" aria-label="Menu">
+      <div class="section-title">
+        <div style="width:6px;height:36px;background:linear-gradient(180deg,var(--red),#8b0000);border-radius:8px"></div>
+        <div>
+          <h2>Our Menu</h2>
+          <div class="section-sub">Handmade & packed fresh — prices shown are example starting prices.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn secondary" onclick="filterMenu('all')">All</button>
+        <button class="btn secondary" onclick="filterMenu('burger')">Burgers</button>
+        <button class="btn secondary" onclick="filterMenu('pizza')">Pizza</button>
+        <button class="btn secondary" onclick="filterMenu('fries')">Fries</button>
+        <button class="btn secondary" onclick="filterMenu('pasta')">Pasta</button>
+      </div>
+
+      <div class="menu-grid" id="menuGrid">
+        <!-- Menu items (images are placeholder links; replace with your own) -->
+        <div class="menu-item" data-cat="burger">
+          <img src="https://images.unsplash.com/photo-1606755962772-4c0d7ed8c0e3?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=4b3a6f8f2a6f4b9b0b9f77b5b3b8a5b2" alt="Burger">
+          <h4>Classic Burger</h4>
+          <div class="price">₹120</div>
+          <div style="margin-top:8px;font-size:13px;color:#cfcfcf">Juicy patty, lettuce, cheese, special sauce.</div>
+        </div>
+
+        <div class="menu-item" data-cat="pizza">
+          <img src="https://images.unsplash.com/photo-1548365328-76a1b5f4f8a1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=1e9d4f6a2f7b4e4a9a2b1c3d4e5f6a7b" alt="Pizza">
+          <h4>Margherita Pizza (Medium)</h4>
+          <div class="price">₹220</div>
+          <div style="margin-top:8px;font-size:13px;color:#cfcfcf">Fresh basil, mozzarella, tomato sauce.</div>
+        </div>
+
+        <div class="menu-item" data-cat="fries">
+          <img src="https://images.unsplash.com/photo-1585238342020-3d5a0b1f2c45?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=a6f4d3c5b2b1a0c9d8e7f6a5b4c3d2e1" alt="Fries">
+          <h4>French Fries (Large)</h4>
+          <div class="price">₹80</div>
+          <div style="margin-top:8px;font-size:13px;color:#cfcfcf">Crispy outside, fluffy inside. Salted to perfection.</div>
+        </div>
+
+        <div class="menu-item" data-cat="pasta">
+          <img src="https://images.unsplash.com/photo-1604908177522-1fb2f2b0b4d6?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0c9d8a7b6c5d4e3f2a1b0c9d8e7f6a5b" alt="Pasta">
+          <h4>Creamy Alfredo Pasta</h4>
+          <div class="price">₹150</div>
+          <div style="margin-top:8px;font-size:13px;color:#cfcfcf">Rich cream sauce with parmesan & herbs.</div>
+        </div>
+
+        <div class="menu-item" data-cat="burger">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=2b3c4d5e6f7081920a0b1c2d3e4f5a6b" alt="Cheese Burger">
+          <h4>Cheese Burst Burger</h4>
+          <div class="price">₹150</div>
+          <div style="margin-top:8px;font-size:13px;color:#cfcfcf">Extra cheese, grilled to perfection.</div>
+        </div>
+
+        <div class="menu-item" data-cat="pizza">
+          <img src="https://images.unsplash.com/photo-1548365328-77a1b5f4f8a2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b4c5d6e7f8091920b1c2d3e4f5a6b7c" alt="Pepperoni Pizza">
+          <h4>Pepperoni Pizza (Large)</h4>
+          <div class="price">₹280</div>
+          <div style="margin-top:8px;font-size:13px;color:#cfcfcf">Loaded with pepperoni & gooey cheese.</div>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
+    <!-- GALLERY -->
+    <section id="gallery" aria-label="Gallery">
+      <div class="section-title">
+        <div style="width:6px;height:36px;background:linear-gradient(180deg,var(--red),#8b0000);border-radius:8px"></div>
+        <div>
+          <h2>Gallery</h2>
+          <div class="section-sub">Photos from our kitchen and happy customers.</div>
+        </div>
+      </div>
+
+      <div class="gallery-grid" style="margin-top:16px">
+        <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=abc" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1541544180-cd4b2b1d4f88?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=def" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=ghi" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=jkl" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=mno" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=pqr" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1532634896-26909d0d3b0c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=stu" alt="food" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=vwx" alt="food" onclick="openLightbox(this.src)">
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" aria-label="Testimonials">
+      <div class="section-title">
+        <div style="width:6px;height:36px;background:linear-gradient(180deg,var(--red),#8b0000);border-radius:8px"></div>
+        <div>
+          <h2>Customer Reviews</h2>
+          <div class="section-sub">Real feedback — 5-star service.</div>
+        </div>
+      </div>
+
+      <div class="testimonials">
+        <div class="testi">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:48px;height:48px;border-radius:12px;background:#222;display:flex;align-items:center;justify-content:center">V</div>
+            <div>
+              <div style="font-weight:700">Aman K.</div>
+              <div style="color:#ccc;font-size:13px">1 day ago • Google</div>
+            </div>
+          </div>
+          <p style="margin-top:12px;color:#ddd">"Best burger in town — fresh and tasty. Delivery was fast and hot. 5/5!"</p>
+        </div>
+
+        <div class="testi">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:48px;height:48px;border-radius:12px;background:#222;display:flex;align-items:center;justify-content:center">S</div>
+            <div>
+              <div style="font-weight:700">Sonia R.</div>
+              <div style="color:#ccc;font-size:13px">3 days ago • Google</div>
+            </div>
+          </div>
+          <p style="margin-top:12px;color:#ddd">"Pizza was cheesy and perfect. Love the portion size. Highly recommended!"</p>
+        </div>
+
+        <div class="testi">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:48px;height:48px;border-radius:12px;background:#222;display:flex;align-items:center;justify-content:center">R</div>
+            <div>
+              <div style="font-weight:700">Ravi P.</div>
+              <div style="color:#ccc;font-size:13px">1 week ago • Google</div>
+            </div>
+          </div>
+          <p style="margin-top:12px;color:#ddd">"Great value for money. Fries were crispy and salted just right."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-label="Contact">
+      <div class="section-title">
+        <div style="width:6px;height:36px;background:linear-gradient(180deg,var(--red),#8b0000);border-radius:8px"></div>
+        <div>
+          <h2>Contact & Location</h2>
+          <div class="section-sub">Reach out for orders, catering, or feedback.</div>
+        </div>
+      </div>
+
+      <div class="contact-grid" style="margin-top:12px">
+        <div>
+          <form id="contactForm" onsubmit="submitContact(event)">
+            <div style="display:flex;gap:10px">
+              <input class="input" id="name" placeholder="Naam" required>
+              <input class="input" id="phone" placeholder="Mobile (e.g. 9518692138)" required>
+            </div>
+            <div style="margin-top:10px">
+              <input class="input" id="email" placeholder="Email (optional)">
+            </div>
+            <div style="margin-top:10px">
+              <textarea id="message" placeholder="Message / Order details" required></textarea>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:10px">
+              <button class="btn" type="submit">Send Message</button>
+              <button class="btn secondary" type="button" onclick="window.open('https://maps.app.goo.gl/f1pMUpUfDNXgsW4u9','_blank')">View on Map</button>
+            </div>
+            <div id="contactResult" style="margin-top:10px;color:#bfffbf;display:none"></div>
+          </form>
+
+          <div style="margin-top:18px;color:#ddd;font-size:14px">
+            <div style="margin-bottom:6px"><strong>Phone:</strong> <a href="https://api.whatsapp.com/send?phone=9518692138&text=Hi" target="_blank">+91 95186 92138 (WhatsApp)</a></div>
+            <div style="margin-bottom:6px"><strong>Rating:</strong> <span class="rating-badge">⭐ 5.0</span></div>
+            <div><strong>Address:</strong> <a href="https://maps.app.goo.gl/f1pMUpUfDNXgsW4u9" target="_blank">View on Google Maps</a></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:stretch">
+          <div style="background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:12px">
+            <div style="font-weight:800">Opening Hours</div>
+            <div style="color:#cfcfcf;margin-top:8px">Mon–Sun: 10:00 AM — 11:00 PM</div>
+          </div>
+
+          <div style="background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:12px">
+            <div style="font-weight:800">Delivery Areas</div>
+            <div style="color:#cfcfcf;margin-top:8px">Local area (contact for exact pin codes)</div>
+          </div>
+
+          <div style="background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:12px">
+            <div style="font-weight:800">Quick Links</div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <a class="btn secondary" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi" target="_blank">Order</a>
+              <a class="btn secondary" href="https://maps.app.goo.gl/f1pMUpUfDNXgsW4u9" target="_blank">Map</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
-        © 2025 Vishal Fast Food | Fastest & Tastiest in Town 😍
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div>
+          <div style="font-weight:800">Vishal Fast Food</div>
+          <div style="color:#bbb;font-size:13px;margin-top:6px">Delicious • Fast • Trusted</div>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="socials">
+            <a href="https://maps.app.goo.gl/f1pMUpUfDNXgsW4u9" target="_blank" style="color:#fff;font-weight:700">Google</a>
+            <a href="https://api.whatsapp.com/send?phone=9518692138&text=Hi" target="_blank" style="color:#fff;font-weight:700">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;color:#777;font-size:13px">© <span id="year"></span> Vishal Fast Food — All rights reserved.</div>
     </footer>
+  </main>
 
-    <!-- WhatsApp Floating Btn -->
-    <a class="whatsapp-btn" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi">💬</a>
+  <!-- WhatsApp floating -->
+  <a class="whatsapp" href="https://api.whatsapp.com/send?phone=9518692138&text=Hi" target="_blank" aria-label="Chat on WhatsApp">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.9 11.9 0 0012 .5 11.9 11.9 0 003.48 3.48 11.9 11.9 0 00.5 12c0 2.08.54 4.02 1.48 5.76L.5 23l5.86-1.46A11.9 11.9 0 0012 23.5c2.08 0 4.02-.54 5.76-1.48A11.9 11.9 0 0023.5 12c0-1.99-.5-3.86-1.48-5.52zM12 21c-1.98 0-3.86-.5-5.52-1.48L4 19l.5-2.48C3.54 15.02 3 13.08 3 11c0-4.97 4.03-9 9-9s9 4.03 9 9-4.03 9-9 9z" fill="#fff"/></svg>
+    Order Now
+  </a>
 
+  <!-- Lightbox modal -->
+  <div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center;padding:20px">
+    <img id="lightboxImg" src="" alt="Preview" style="max-width:95%;max-height:85%;border-radius:12px;box-shadow:0 20px 80px rgba(0,0,0,0.8)">
+    <button onclick="closeLightbox()" style="position:absolute;top:18px;right:18px;background:transparent;border:0;color:#fff;font-size:22px">✕</button>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Set year
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // Mobile menu toggles
+    function toggleMobileMenu(){
+      const mm = document.getElementById('mobileMenu');
+      mm.style.display = (mm.style.display === 'none' || !mm.style.display) ? 'block' : 'none';
+    }
+    function closeMobileMenu(){ document.getElementById('mobileMenu').style.display = 'none' }
+
+    // Quick Order
+    let qty = 1;
+    const qtyEl = document.getElementById('qty');
+    const calcPriceEl = document.getElementById('calcPrice');
+    function changeQty(delta){
+      qty = Math.max(1, qty + delta);
+      qtyEl.innerText = qty;
+      updateCalcPrice();
+    }
+    function updateCalcPrice(){
+      const val = document.getElementById('quickItem').value; // "Name|price"
+      const price = parseInt(val.split('|')[1]);
+      calcPriceEl.innerText = '₹' + (price * qty);
+    }
+    document.getElementById('quickItem').addEventListener('change', updateCalcPrice);
+    updateCalcPrice();
+
+    // Simple cart
+    const cart = [];
+    function addToCart(){
+      const val = document.getElementById('quickItem').value.split('|');
+      const name = val[0], price = parseInt(val[1]);
+      cart.push({name, price, qty});
+      showCartPreview();
+      alert('Item added to cart');
+    }
+    function showCartPreview(){
+      const preview = document.getElementById('cartPreview');
+      const text = document.getElementById('cartItemsText');
+      const list = document.getElementById('cartList');
+      const total = document.getElementById('cartTotal');
+      if(cart.length===0){ preview.style.display='none'; return }
+      preview.style.display='block';
+      text.innerText = cart.length + ' item(s)';
+      list.innerText = cart.map(x=>x.qty + '× ' + x.name).join(' • ');
+      const sum = cart.reduce((s,i)=>s + i.price*i.qty,0);
+      total.innerText = '₹' + sum;
+    }
+    function clearCart(){ cart.length=0; showCartPreview(); alert('Cart cleared') }
+    function checkoutCart(){
+      if(cart.length===0){ alert('Cart is empty'); return }
+      const sum = cart.reduce((s,i)=>s + i.price*i.qty,0);
+      let text = 'Hello Vishal Fast Food!%0AI would like to place an order:%0A';
+      cart.forEach(i=> text += `- ${i.qty} x ${i.name}%0A`);
+      text += `%0ATotal: ₹${sum}%0AName: %0APhone: `;
+      window.open('https://api.whatsapp.com/send?phone=9518692138&text=' + encodeURIComponent(text), '_blank');
+    }
+
+    // Quick order direct
+    function sendQuickOrder(){
+      const select = document.getElementById('quickItem').value.split('|');
+      const name = select[0], price = parseInt(select[1]);
+      const text = `Hello Vishal Fast Food! I want ${qty} x ${name}. Total ₹${price*qty}. My name: . Phone: .`;
+      window.open('https://api.whatsapp.com/send?phone=9518692138&text=' + encodeURIComponent(text), '_blank');
+    }
+
+    // Menu filter
+    function filterMenu(cat){
+      const items = document.querySelectorAll('.menu-item');
+      items.forEach(i=>{
+        if(cat==='all') i.style.display='block';
+        else i.style.display = (i.dataset.cat===cat ? 'block' : 'none');
+      })
+    }
+
+    // Lightbox
+    function openLightbox(src){
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').style.display = 'flex';
+    }
+    function closeLightbox(){ document.getElementById('lightbox').style.display = 'none' }
+
+    // Contact form (client-side: uses mailto fallback + shows message)
+    function submitContact(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const body = `Name: ${name}%0APhone: ${phone}%0AEmail: ${email}%0AMessage: ${message}`;
+      // Primary action: open WhatsApp prefilled
+      const waText = `New message for Vishal Fast Food:%0AName: ${name}%0APhone: ${phone}%0AMessage: ${message}`;
+      window.open('https://api.whatsapp.com/send?phone=9518692138&text=' + encodeURIComponent(waText), '_blank');
+
+      // Show a friendly confirmation on page
+      const result = document.getElementById('contactResult');
+      result.style.display = 'block';
+      result.innerText = 'Message opened in WhatsApp — we'll get back to you soon! (Also check your WhatsApp)';
+      // Optionally clear form
+      document.getElementById('contactForm').reset();
+    }
+
+    // Close lightbox on ESC
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeLightbox() });
+
+    // Close mobile menu on outside click
+    document.addEventListener('click', (e)=>{
+      const mm = document.getElementById('mobileMenu');
+      const btn = document.querySelector('.menu-toggle');
+      if(!mm) return;
+      if(window.innerWidth < 980 && mm.style.display === 'block' && !mm.contains(e.target) && e.target !== btn){
+        mm.style.display = 'none';
+      }
+    });
+
+    // Small reveal animation on load
+    window.addEventListener('load', ()=>{
+      document.querySelectorAll('.fade-up').forEach(el=>{
+        el.style.animationPlayState = 'running';
+      })
+    });
+
+  </script>
 </body>
-
 </html>
